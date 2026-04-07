@@ -70,9 +70,9 @@ CELERY_TIMEZONE = 'UTC'
 
 from datetime import timedelta
 CELERY_BEAT_SCHEDULE = {
-    'update-joke-every-5-seconds': {
+    'update-joke-every-2-seconds': {
         'task': 'api.tasks.update_joke',
-        'schedule': timedelta(seconds=5),
+        'schedule': timedelta(seconds=2),
     },
 }
 
