@@ -8,20 +8,20 @@ function App() {
   const [joke, setJoke] = useState("Loading joke...")
 
   useEffect(() => {
-    const fetchJoke = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/api/joke/');
-        const data = await response.json();
-        setJoke(data.joke);
-      } catch (error) {
-        console.error("Error fetching joke:", error);
-      }
+    // Rely on Server-Sent Events (SSE) instead of setInterval polling.
+    // The server waits for Celery task to update the database, then pushes to React.
+    const eventSource = new EventSource('http://localhost:8000/api/joke/stream/');
+
+    eventSource.onmessage = (event) => {
+      setJoke(event.data);
     };
 
-    fetchJoke(); // initial fetch
-    const interval = setInterval(fetchJoke, 5000); // fetch every 5 seconds
+    eventSource.onerror = (error) => {
+      console.error("EventSource failed:", error);
+      eventSource.close();
+    };
 
-    return () => clearInterval(interval);
+    return () => eventSource.close();
   }, []);
 
   return (
