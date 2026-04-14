@@ -34,6 +34,8 @@ celery -A myapp beat -l info
 
 Notes:
 - By default, Celery uses a local filesystem broker under `control/`.
+- Beat schedule is database-backed via `django_celery_beat` (cloud-friendly, no local `celerybeat-schedule` file required).
+- The periodic task `update-joke-every-2-seconds` is created by migration and can be edited in Django admin.
 - You can switch to Redis by setting `CELERY_BROKER_URL`, for example:
   `export CELERY_BROKER_URL=redis://127.0.0.1:6379/0`
 

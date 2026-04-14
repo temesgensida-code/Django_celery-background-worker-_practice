@@ -80,14 +80,7 @@ else:
 
 CELERY_RESULT_BACKEND = 'django-db' # Needs django-celery-results
 CELERY_TIMEZONE = 'UTC'
-
-from datetime import timedelta
-CELERY_BEAT_SCHEDULE = {
-    'update-joke-every-2-seconds': {
-        'task': 'api.tasks.update_joke',
-        'schedule': timedelta(seconds=2),
-    },
-}
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 ROOT_URLCONF = 'myapp.urls'
 
