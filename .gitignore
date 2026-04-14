@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Local Django artifacts
+db.sqlite3
+celerybeat-schedule
+celerybeat-schedule.*
+
+# Celery filesystem transport data
+control/out/
+control/processed/
+
+# OS/editor noise
+.DS_Store
+.vscode/
+.idea/

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,15 +57,27 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-import os
 # Celery configs
-# Windows-friendly fallback since Redis & Docker aren't natively running
-CELERY_BROKER_URL = 'filesystem://'
-CELERY_BROKER_TRANSPORT_OPTIONS = {
-    'data_folder_in': os.path.join(BASE_DIR, 'broker', 'out'),
-    'data_folder_out': os.path.join(BASE_DIR, 'broker', 'out'),
-    'data_folder_processed': os.path.join(BASE_DIR, 'broker', 'processed')
-}
+# Default to filesystem transport so it works without Redis on local machines.
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'filesystem://')
+
+if CELERY_BROKER_URL.startswith('filesystem://'):
+    broker_dir = BASE_DIR / 'control'
+    broker_out_dir = broker_dir / 'out'
+    broker_processed_dir = broker_dir / 'processed'
+
+    # Ensure broker folders exist on fresh Linux clones.
+    broker_out_dir.mkdir(parents=True, exist_ok=True)
+    broker_processed_dir.mkdir(parents=True, exist_ok=True)
+
+    CELERY_BROKER_TRANSPORT_OPTIONS = {
+        'data_folder_in': str(broker_out_dir),
+        'data_folder_out': str(broker_out_dir),
+        'data_folder_processed': str(broker_processed_dir),
+    }
+else:
+    CELERY_BROKER_TRANSPORT_OPTIONS = {}
+
 CELERY_RESULT_BACKEND = 'django-db' # Needs django-celery-results
 CELERY_TIMEZONE = 'UTC'
 
