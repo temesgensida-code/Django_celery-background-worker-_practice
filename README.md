@@ -110,6 +110,7 @@ This repo is cloud-ready with environment-driven Django config and database-back
 1. Configure App Settings using [.env.azure.example](.env.azure.example).
 2. Use startup commands from [deploy/azure-start-commands.txt](deploy/azure-start-commands.txt).
 3. Follow the full guide in [deploy/AZURE_DEPLOYMENT.md](deploy/AZURE_DEPLOYMENT.md).
+4. For VS Code Azure extension workflow, use [deploy/AZURE_VSCODE_EXTENSION_STEPS.md](deploy/AZURE_VSCODE_EXTENSION_STEPS.md).
 
 Recommended Azure services:
 
