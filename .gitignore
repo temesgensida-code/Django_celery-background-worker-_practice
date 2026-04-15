@@ -17,6 +17,11 @@ celerybeat-schedule.*
 control/out/
 control/processed/
 
+# Frontend and build artifacts
+displayer/node_modules/
+displayer/dist/
+staticfiles/
+
 # OS/editor noise
 .DS_Store
 .vscode/

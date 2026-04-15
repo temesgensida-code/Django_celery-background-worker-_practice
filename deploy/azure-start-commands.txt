@@ -1,0 +1,10 @@
+# Use these as Startup Command values in Azure App Service Linux
+
+# Web app (Django)
+python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn myapp.wsgi --bind 0.0.0.0:${PORT:-8000}
+
+# Worker app (Celery worker)
+python -m celery -A myapp worker -l info
+
+# Beat app (Celery beat, database scheduler)
+python -m celery -A myapp beat -l info

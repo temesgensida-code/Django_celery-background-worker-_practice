@@ -102,3 +102,17 @@ Quick health checks:
 curl -s http://127.0.0.1:8000/api/joke/
 curl -N http://127.0.0.1:8000/api/joke/stream/
 ```
+
+## 6) Azure deployment quick start
+
+This repo is cloud-ready with environment-driven Django config and database-backed beat schedule.
+
+1. Configure App Settings using [.env.azure.example](.env.azure.example).
+2. Use startup commands from [deploy/azure-start-commands.txt](deploy/azure-start-commands.txt).
+3. Follow the full guide in [deploy/AZURE_DEPLOYMENT.md](deploy/AZURE_DEPLOYMENT.md).
+
+Recommended Azure services:
+
+- App Service Linux for `web`, `worker`, and `beat`
+- Azure Database for PostgreSQL (shared `DATABASE_URL`)
+- Azure Cache for Redis (shared `CELERY_BROKER_URL`)
